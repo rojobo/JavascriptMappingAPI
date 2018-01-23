@@ -19,24 +19,6 @@ MappingAPI.Constants = {
 };
 
 MappingAPI.Utils = {
-    formatToolTip: function(pMessage, lat, lng) {
-        var infoContentWidth = 200;
-        if (pMessage.length === 0) {
-            infoContentWidth = 130;
-        }
-        message = "<p style='color:black;'>" + pMessage + "</p><p><a onclick=\"Local.PullUpGoogleMap(" + lat + ", " + lng + ")\" href=\"#\">View on Google Maps</a></p>";
-        message = message.replace(/\n/g, "<br>");
-        return "<div style=\"width:" + infoContentWidth + "px\">" + message + "</div>";
-    },
-    formatTruckToolTip: function(pMessage, lat, lng, pTruck) {
-        var infoContentWidth = 200;
-        if (pMessage.length === 0) {
-            infoContentWidth = 130;
-        }
-        message = "<p style='color:black;'>" + pMessage + "</p><p><a href=\"/Maps/DispatchMaps/GPSDeliveryTracking/" + pTruck.Store + "/" + pTruck.TruckID + "/" + pTruck.DeliveryDate + "/" + pTruck.DeliverySequence +"\">Track this Truck</a></p>";
-        message = message.replace(/\n/g, "<br>");
-        return "<div style=\"width:" + infoContentWidth + "px\">" + message + "</div>";
-    },
     getMidpoint: function(pCoordOne, pCoordTwo) {
         var avg = function (x, y) { 
             return (x + y) / 2; 
