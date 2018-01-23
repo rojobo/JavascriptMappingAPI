@@ -21,7 +21,8 @@ MappingAPI.BingMaps = function($pSelector, pAPIKey, pCenter) {
                RIGHT_CLICK: 'rightclick',
                TILES_LOADED: '',
                TILT_CHANGED: 'viewchange',
-               ZOOM_CHANGED: 'viewchangeend'
+               ZOOM_CHANGED: 'viewchangeend',
+               VIEW_CHANGED: ''
         },
         MapType: {
             AERIAL: Microsoft.Maps.MapTypeId.aerial,
@@ -36,14 +37,7 @@ MappingAPI.BingMaps = function($pSelector, pAPIKey, pCenter) {
         Animation: {}
     };
 
-    var height = $(window).height();
-    var oMapStyle = {
-        'height': height,
-        'width': '100%'
-    };
-    var oCenter = new Microsoft.Maps.Location(pCenter.Latitude, pCenter.Longitude); 
-
-    $pSelector.css(oMapStyle);
+    var oCenter = new Microsoft.Maps.Location(pCenter.Latitude, pCenter.Longitude);
 
     this.API_KEY = pAPIKey;
 
@@ -279,6 +273,10 @@ MappingAPI.BingMaps.prototype.initCustomControlOptions =  function() {
 };
 
 MappingAPI.BingMaps.prototype.plotRoute = function(pLayerGroup, pProp, pRoute, pOptions) {
+    return;
+};
+
+MappingAPI.BingMaps.prototype.overrideStreetViewPanorama = function() {
     return;
 };
 
