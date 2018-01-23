@@ -20,7 +20,8 @@ MappingAPI.MapQuest = function($pSelector, pAPIKey, pCenter) {
                RIGHT_CLICK: '',
                TILES_LOADED: '',
                TILT_CHANGED: '',
-               ZOOM_CHANGED: 'zoom'
+               ZOOM_CHANGED: 'zoom',
+               VIEW_CHANGED: ''
         },
 		MapType: {
 			ROADMAP: 'map',
@@ -34,12 +35,6 @@ MappingAPI.MapQuest = function($pSelector, pAPIKey, pCenter) {
         },
     };
 
-	var height = $(window).height();
-	var oMapStyle = {
-		'height': height,
-		'width': '100%',
-		'position': 'relative'
-	};
 	var oBondingBox = {
 		'ul': {//upper left
 			'lng': pCenter.Longitude,
@@ -50,10 +45,9 @@ MappingAPI.MapQuest = function($pSelector, pAPIKey, pCenter) {
 			'lat': pCenter.Latitude + .1
 		}
 	};
+
 	var oCenter = L.mapquest.util.getCenterFromBoundingBox(oBondingBox);
 	var intZoom = L.mapquest.util.getZoomFromBoundingBox(oBondingBox);
-
-	$pSelector.css(oMapStyle);
 
 	L.mapquest.key = pAPIKey;
 	this.API_KEY = pAPIKey;
@@ -253,6 +247,10 @@ MappingAPI.MapQuest.prototype.initMarkerOptions =  function(pZindex) {
 
 MappingAPI.MapQuest.prototype.initCustomControlOptions =  function() {
     return [];
+};
+
+MappingAPI.MapQuest.prototype.overrideStreetViewPanorama = function() {
+	return;
 };
 
 MappingAPI.MapQuest.prototype.clearMap = function(pLayerGroup) {
