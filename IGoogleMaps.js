@@ -21,7 +21,8 @@ MappingAPI.GoogleMaps = function($pSelector, pAPIKey, pCenter) {
                RIGHT_CLICK: 'rightclick',
                TILES_LOADED: 'tilesloaded',
                TILT_CHANGED: 'tilt_changed',
-               ZOOM_CHANGED: 'zoom_changed'
+               ZOOM_CHANGED: 'zoom_changed',
+               VIEW_CHANGED: 'visible_changed'
         },
         Animation: {
             BOUNCE: google.maps.Animation.BOUNCE,
@@ -35,14 +36,7 @@ MappingAPI.GoogleMaps = function($pSelector, pAPIKey, pCenter) {
         }
     };
 
-    var height = $(window).height();
-    var oMapStyle = {
-        'height': height,
-        'width': '100%'
-    };
-    var oCenter = new google.maps.LatLng(pCenter.Latitude, pCenter.Longitude); 
-
-    $pSelector.css(oMapStyle);
+    var oCenter = new google.maps.LatLng(pCenter.Latitude, pCenter.Longitude);
 
     this.API_KEY = pAPIKey;
 
@@ -64,9 +58,11 @@ MappingAPI.GoogleMaps = function($pSelector, pAPIKey, pCenter) {
         scaleControl: true,
         streetViewControl: true,
         streetViewControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_BOTTOM
-        }
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        fullscreenControl: false
     });
+
 
     this.infoWindow = new google.maps.InfoWindow();
     this.directions = new google.maps.DirectionsService();
@@ -288,6 +284,28 @@ MappingAPI.GoogleMaps.prototype.initMarkerOptions =  function(pZindex) {
 
 MappingAPI.GoogleMaps.prototype.initCustomControlOptions =  function() {
     return;
+};
+
+MappingAPI.GoogleMaps.prototype.overrideStreetViewPanorama = function() {
+    var googleMap = this.map;
+    var panorama = this.map.getStreetView();
+    var onPanoramaStart = function() {
+        if (panorama.getVisible()) {
+            var steetViewOpts = new google.maps.StreetViewPanorama(googleMap.getDiv(), {
+                    panControlOptions: {
+                        position: google.maps.ControlPosition.TOP_RIGHT
+                    },
+                    addressControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER
+                    },
+                    enableCloseButton: true
+            });
+            
+            googleMap.setStreetView(steetViewOpts);
+        }
+    };
+
+    this.addEventHandler(panorama, this.Constants.Events.VIEW_CHANGED, onPanoramaStart);
 };
 
 MappingAPI.GoogleMaps.prototype.plotRoute = function(pLayerGroup, pProp, pRoute, pOptions) {
